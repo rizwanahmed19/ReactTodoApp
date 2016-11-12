@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import TodoList from './TodoList';
+import AddTodo from './AddTodo';
 
 class TodoApp extends Component {
     constructor(props) {
@@ -22,11 +23,23 @@ class TodoApp extends Component {
         	]
         };
     }
+    handleAddTodo(todoText){
+    	var todo = {
+    		id: Math.floor(Math.random() * 100),
+    		text: todoText
+    	};
+    	var todos = this.state.todos.concat([todo]);
+    	this.setState({
+    		todos: todos
+    	});
+
+    }
     render() {
     	var {todos} = this.state;
         return (
         	<div>
         		<TodoList todos={todos} />
+        		<AddTodo onAddTodo={this.handleAddTodo.bind(this)} />
         	</div>
         );
     }
