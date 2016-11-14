@@ -26582,13 +26582,17 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var todos = this.state.todos;
+	            var _state = this.state;
+	            var todos = _state.todos;
+	            var showCompleted = _state.showCompleted;
+	            var searchText = _state.searchText;
 
+	            var filteredTodos = _TodoAPI2.default.filterTodos(todos, showCompleted, searchText);
 	            return _react2.default.createElement(
 	                'div',
 	                null,
 	                _react2.default.createElement(_TodoSearch2.default, { onSearch: this.handleSearch.bind(this) }),
-	                _react2.default.createElement(_TodoList2.default, { todos: todos, onToggle: this.handleToggleTodo.bind(this) }),
+	                _react2.default.createElement(_TodoList2.default, { todos: filteredTodos, onToggle: this.handleToggleTodo.bind(this) }),
 	                _react2.default.createElement(_AddTodo2.default, { onAddTodo: this.handleAddTodo.bind(this) })
 	            );
 	        }
@@ -27468,6 +27472,28 @@
 			} catch (e) {}
 
 			return _jquery2.default.isArray(todos) ? todos : [];
+		},
+		filterTodos: function filterTodos(todos, showCompleted, searchText) {
+			var filteredTodos = todos;
+
+			filteredTodos = filteredTodos.filter(function (todo) {
+				return !todo.completed || showCompleted;
+			});
+
+			var filteredTodos = filteredTodos.filter(function (todo) {
+				return todo.text.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+			});
+
+			filteredTodos.sort(function (a, b) {
+				if (!a.completed && b.completed) {
+					return -1;
+				} else if (a.completed && !b.completed) {
+					return 1;
+				} else {
+					return 0;
+				}
+			});
+			return filteredTodos;
 		}
 	};
 
