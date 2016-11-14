@@ -26533,16 +26533,20 @@
 	            searchText: '',
 	            todos: [{
 	                id: (0, _uuid2.default)(),
-	                text: 'Walk the dog'
+	                text: 'Walk the dog',
+	                completed: false
 	            }, {
 	                id: (0, _uuid2.default)(),
-	                text: 'Clean the yard'
+	                text: 'Clean the yard',
+	                completed: true
 	            }, {
 	                id: (0, _uuid2.default)(),
-	                text: 'Complete this course'
+	                text: 'Complete this course',
+	                completed: true
 	            }, {
 	                id: (0, _uuid2.default)(),
-	                text: 'Have tea'
+	                text: 'Have tea',
+	                completed: false
 	            }]
 	        };
 	        return _this;
@@ -26554,7 +26558,8 @@
 	            this.setState({
 	                todos: [].concat(_toConsumableArray(this.state.todos), [{
 	                    id: (0, _uuid2.default)(),
-	                    text: todoText
+	                    text: todoText,
+	                    completed: false
 	                }])
 	            });
 	        }
@@ -26567,6 +26572,21 @@
 	            });
 	        }
 	    }, {
+	        key: 'handleToggleTodo',
+	        value: function handleToggleTodo(id) {
+	            var updatedTodos = this.state.todos.map(function (todo) {
+	                if (todo.id === id) {
+	                    todo.completed = !todo.completed;
+	                }
+
+	                return todo;
+	            });
+
+	            this.setState({
+	                todos: updatedTodos
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var todos = this.state.todos;
@@ -26575,7 +26595,7 @@
 	                'div',
 	                null,
 	                _react2.default.createElement(_TodoSearch2.default, { onSearch: this.handleSearch.bind(this) }),
-	                _react2.default.createElement(_TodoList2.default, { todos: todos }),
+	                _react2.default.createElement(_TodoList2.default, { todos: todos, onToggle: this.handleToggleTodo.bind(this) }),
 	                _react2.default.createElement(_AddTodo2.default, { onAddTodo: this.handleAddTodo.bind(this) })
 	            );
 	        }
@@ -26976,11 +26996,13 @@
 	    _createClass(TodoList, [{
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+
 	            var todos = this.props.todos;
 
 	            var renderTodos = function renderTodos() {
 	                return todos.map(function (todo) {
-	                    return _react2.default.createElement(_Todo2.default, _extends({ key: todo.id }, todo));
+	                    return _react2.default.createElement(_Todo2.default, _extends({ key: todo.id }, todo, { onToggle: _this2.props.onToggle }));
 	                });
 	            };
 	            return _react2.default.createElement(
@@ -27032,15 +27054,19 @@
 	    _createClass(Todo, [{
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+
 	            var _props = this.props;
 	            var id = _props.id;
 	            var text = _props.text;
+	            var completed = _props.completed;
 
 	            return _react2.default.createElement(
 	                'div',
-	                null,
-	                id,
-	                '. ',
+	                { onClick: function onClick() {
+	                        _this2.props.onToggle(id);
+	                    } },
+	                _react2.default.createElement('input', { type: 'checkbox', checked: completed }),
 	                text
 	            );
 	        }
