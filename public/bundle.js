@@ -26553,13 +26553,7 @@
 	        key: 'handleAddTodo',
 	        value: function handleAddTodo(todoText) {
 	            this.setState({
-	                todos: [].concat(_toConsumableArray(this.state.todos), [{
-	                    id: (0, _uuid2.default)(),
-	                    text: todoText,
-	                    completed: false,
-	                    createdAt: (0, _moment2.default)().unix(),
-	                    completedAt: undefined
-	                }])
+	                todos: [].concat(_toConsumableArray(this.state.todos), [{}])
 	            });
 	        }
 	    }, {

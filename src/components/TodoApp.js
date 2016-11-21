@@ -24,12 +24,8 @@ class TodoApp extends Component {
     		todos: [
     			...this.state.todos,
     			{
-    				id: uuid(),
-    				text: todoText,
-        		completed: false,
-        		createdAt: moment().unix(),
-        		completedAt: undefined
-    			}
+            
+          }
     		]
     	});
 
