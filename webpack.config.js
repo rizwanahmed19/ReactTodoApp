@@ -7,7 +7,7 @@ var htmlWebpackPluginConfig = new htmlWebpackPlugin({
 	inject: 'body'
 });
 module.exports = {
-	devtools: 'eval-source-map',
+	devtools: 'source-map',
 	entry: [
 		'script!jquery/dist/jquery.min.js',
 		'script!foundation-sites/dist/foundation.min.js',
