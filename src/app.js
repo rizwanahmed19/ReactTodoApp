@@ -1,4 +1,5 @@
 import React from 'react';
+import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute, hashHistory} from 'react-router';
 import TodoApp from './components/TodoApp';
@@ -18,6 +19,8 @@ $(document).foundation();
 import 'style!css!sass!./styles/app.scss';
 
 ReactDOM.render(
-	<TodoApp />, 
+	<Provider store={store}>
+		<TodoApp /> 
+	</Provider>,
 	document.getElementById('app')
 );
