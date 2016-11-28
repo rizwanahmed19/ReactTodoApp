@@ -11,9 +11,6 @@ store.subscribe(() => {
 	console.log('New state', store.getState());
 });
 
-store.dispatch(addTodo('clean the yard'));
-store.dispatch(setSearchText('dog'));
-
 $(document).foundation();
 
 import 'style!css!sass!./styles/app.scss';
