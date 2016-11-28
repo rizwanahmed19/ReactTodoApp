@@ -111,6 +111,10 @@
 
 	var _TodoApp2 = _interopRequireDefault(_TodoApp);
 
+	var _TodoAPI = __webpack_require__(388);
+
+	var _TodoAPI2 = _interopRequireDefault(_TodoAPI);
+
 	var _actions = __webpack_require__(391);
 
 	__webpack_require__(394);
@@ -120,8 +124,13 @@
 	var store = __webpack_require__(398).configure();
 
 	store.subscribe(function () {
-		console.log('New state', store.getState());
+		var state = store.getState();
+		console.log('New state', state);
+		_TodoAPI2.default.setTodos(state.todos);
 	});
+
+	var initialTodos = _TodoAPI2.default.getTodos();
+	store.dispatch((0, _actions.addTodos)(initialTodos));
 
 	$(document).foundation();
 
@@ -28565,13 +28574,7 @@
 
 	var _TodoSearch2 = _interopRequireDefault(_TodoSearch);
 
-	var _TodoAPI = __webpack_require__(388);
-
-	var _TodoAPI2 = _interopRequireDefault(_TodoAPI);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -28582,40 +28585,13 @@
 	var TodoApp = function (_Component) {
 	    _inherits(TodoApp, _Component);
 
-	    function TodoApp(props) {
+	    function TodoApp() {
 	        _classCallCheck(this, TodoApp);
 
-	        var _this = _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).call(this, props));
-
-	        _this.state = {
-	            showCompleted: false,
-	            searchText: '',
-	            todos: _TodoAPI2.default.getTodos()
-	        };
-	        return _this;
+	        return _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).apply(this, arguments));
 	    }
 
 	    _createClass(TodoApp, [{
-	        key: 'componentDidUpdate',
-	        value: function componentDidUpdate() {
-	            _TodoAPI2.default.setTodos(this.state.todos);
-	        }
-	    }, {
-	        key: 'handleAddTodo',
-	        value: function handleAddTodo(todoText) {
-	            this.setState({
-	                todos: [].concat(_toConsumableArray(this.state.todos), [{}])
-	            });
-	        }
-	    }, {
-	        key: 'handleSearch',
-	        value: function handleSearch(showCompleted, searchText) {
-	            this.setState({
-	                showCompleted: showCompleted,
-	                searchText: searchText
-	            });
-	        }
-	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -28635,9 +28611,9 @@
 	                        _react2.default.createElement(
 	                            'div',
 	                            { className: 'container' },
-	                            _react2.default.createElement(_TodoSearch2.default, { onSearch: this.handleSearch.bind(this) }),
+	                            _react2.default.createElement(_TodoSearch2.default, null),
 	                            _react2.default.createElement(_TodoList2.default, null),
-	                            _react2.default.createElement(_AddTodo2.default, { onAddTodo: this.handleAddTodo.bind(this) })
+	                            _react2.default.createElement(_AddTodo2.default, null)
 	                        )
 	                    )
 	                )
@@ -43768,7 +43744,6 @@
 	            var showCompleted = _props.showCompleted;
 
 	            var renderTodos = function renderTodos() {
-	                console.log('in render');
 	                if (todos.length === 0) {
 	                    return _react2.default.createElement(
 	                        'p',
@@ -43981,6 +43956,13 @@
 		};
 	};
 
+	var addTodos = function addTodos(todos) {
+		return {
+			type: 'ADD_TODOS',
+			todos: todos
+		};
+	};
+
 	var toggleTodo = function toggleTodo(id) {
 		return {
 			type: 'TOGGLE_TODO',
@@ -43991,6 +43973,7 @@
 	exports.setSearchText = setSearchText;
 	exports.toggleShowCompleted = toggleShowCompleted;
 	exports.addTodo = addTodo;
+	exports.addTodos = addTodos;
 	exports.toggleTodo = toggleTodo;
 
 /***/ },
@@ -44607,6 +44590,8 @@
 						return todo;
 					}
 				});
+			case 'ADD_TODOS':
+				return [].concat(_toConsumableArray(state), _toConsumableArray(action.todos));
 			default:
 				return state;
 		}

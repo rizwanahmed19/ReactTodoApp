@@ -18,6 +18,13 @@ var addTodo = (text) => {
 	};
 };
 
+var addTodos = (todos) => {
+	return {
+		type: 'ADD_TODOS',
+		todos
+	};
+};
+
 var toggleTodo = (id) => {
 	return {
 		type: 'TOGGLE_TODO',
@@ -29,5 +36,6 @@ export {
 	setSearchText,
 	toggleShowCompleted,
 	addTodo,
+	addTodos,
 	toggleTodo
 }
