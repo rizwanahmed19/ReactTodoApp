@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {addTodo} from './../actions/actions';
+import {startAddTodo} from './../actions/actions';
 
 class AddTodo extends Component {
 	addTodo(e){
@@ -11,7 +11,7 @@ class AddTodo extends Component {
 		if(text.length > 0){
 			this.refs.todo.value = '';
 			// this.props.onAddTodo(text);
-			dispatch(addTodo(text));
+			dispatch(startAddTodo(text));
 		} else {
 			this.refs.todo.focus();
 		}

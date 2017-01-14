@@ -1,3 +1,6 @@
+import firebase, {firebaseRef} from '../firebase/index';
+import moment from 'moment';
+
 var setSearchText = (searchText) => {
 	return {
 		type: 'SET_SEARCH_TEXT',
@@ -11,11 +14,30 @@ var toggleShowCompleted = () => {
 	};
 };
 
-var addTodo = (text) => {
+var addTodo = (todo) => {
 	return {
 		type: 'ADD_TODO',
-		text
+		todo
 	};
+};
+
+var startAddTodo = text => {
+	return (dispatch, getState) => {
+		const todo = {
+			text: text,
+  		completed: false,
+  		createdAt: moment().unix(),
+  		completedAt: null
+		};
+		var todoRef = firebaseRef.child('todos').push(todo);
+		
+		todoRef.then(() => {
+			dispatch(addTodo({
+				...todo,
+				id: todoRef.key
+			}));
+		});
+	}
 };
 
 var addTodos = (todos) => {
@@ -25,17 +47,59 @@ var addTodos = (todos) => {
 	};
 };
 
-var toggleTodo = (id) => {
+var startAddTodos = () => {
+	return (dispatch, getState) => {
+		dispatch(toggleFetching());
+		var todosRef = firebaseRef.child('todos');
+		todosRef.once('value')
+			.then(snapshot => {
+				let todos = snapshot.val() || {};
+				let ids = Object.keys(todos);
+				let todosArray = [];
+
+				ids.forEach(id => {
+					let todo = Object.assign({}, todos[id], {'id': id});
+					todosArray.push(todo);
+				})
+
+				dispatch(toggleFetching());
+				dispatch(addTodos(todosArray));
+			});
+	}
+}
+
+var updateTodo = (id, updates) => {
 	return {
-		type: 'TOGGLE_TODO',
-		id
+		type: 'UPDATE_TODO',
+		id,
+		updates
 	};
+};
+
+var toggleFetching = () => {
+	return {
+		type: 'FETCH_TODOS',
+	}
+}
+
+var startToggleTodo = (id, completed) => {
+	return (dispatch, getState) => {
+		const todoRef = firebaseRef.child(`todos/${id}`);
+		var updates = {
+			completed,
+			completedAt: completed ? moment().unix() : null
+		};
+
+		todoRef.update(updates).then(() => {
+			dispatch(updateTodo(id, updates));
+		});
+	}
 };
 
 export {
 	setSearchText,
 	toggleShowCompleted,
-	addTodo,
-	addTodos,
-	toggleTodo
+	startAddTodo,
+	startAddTodos,
+	startToggleTodo
 }

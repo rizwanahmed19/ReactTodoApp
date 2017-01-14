@@ -1,16 +1,23 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {PulseLoader} from 'halogen';
 import TodoAPI from './../api/TodoAPI';
 import Todo from './Todo';
 
+
 class TodoList extends Component {
     render() {
-    	var {todos, searchText, showCompleted} = this.props;
+    	var {todos, searchText, showCompleted, isFetching} = this.props;
     	var renderTodos = () => {
-            if(todos.length === 0){
-                return (
-                    <p className='container__message'>Nothing To Do</p>
+    				if(isFetching){
+    					 return (
+                    <div className='container__message'>
+                   		<PulseLoader color="#bbb" size="6px" margin="1.5px" />
+                    </div>
                 );
+    				}
+    				if(todos.length === 0){
+    					return <p className='container__message'>Nothing to show</p>
             }
     		return TodoAPI.filterTodos(todos, showCompleted, searchText).map((todo) => {
     			return (

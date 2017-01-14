@@ -6,8 +6,11 @@ var htmlWebpackPluginConfig = new htmlWebpackPlugin({
 	filename: 'index.html',
 	inject: 'body'
 });
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 module.exports = {
-	devtools: 'source-map',
+	devtool: process.env.NODE_ENV === 'production' ? undefined : 'eval-source-map',
 	entry: [
 		'script!jquery/dist/jquery.min.js',
 		'script!foundation-sites/dist/foundation.min.js',
@@ -17,9 +20,15 @@ module.exports = {
 		jquery: 'jQuery'
 	},
 	plugins: [
+		htmlWebpackPluginConfig,
 		new webpack.ProvidePlugin({
 			'$': 'jquery',
 			'jQuery': 'jquery'
+		}),
+		new webpack.optimize.UglifyJsPlugin({
+			compressor: {
+				warnings: false
+			}
 		})
 	],
 	output: {
@@ -42,8 +51,5 @@ module.exports = {
 		includePaths: [
 			path.resolve(__dirname, './node_modules/foundation-sites/scss')
 		]
-	},
-	plugins: [
-		htmlWebpackPluginConfig
-	]
+	}
 };

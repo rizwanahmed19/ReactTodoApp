@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {toggleTodo} from './../actions/actions';
+import {startToggleTodo} from './../actions/actions';
 
 class Todo extends Component {
     render() {
@@ -21,7 +21,7 @@ class Todo extends Component {
       return(
       	<div className={todoClassName} onClick={() => {
       		// this.props.onToggle(id);
-          dispatch(toggleTodo(id));
+          dispatch(startToggleTodo(id, !completed));
       	}}>
           <div>
         		<input type='checkbox' checked={completed} />

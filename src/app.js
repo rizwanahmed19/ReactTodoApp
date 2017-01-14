@@ -1,21 +1,24 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRoute, hashHistory} from 'react-router';
 import TodoApp from './components/TodoApp';
 import TodoAPI from './api/TodoAPI';
 
-import {addTodo, addTodos, setSearchText} from './actions/actions';
-var store = require('./store/configureStore').configure();
+// import '../FirebasePlay';
 
-store.subscribe(() => {
-	var state = store.getState();
-	console.log('New state', state);
-	TodoAPI.setTodos(state.todos);
-});
+import {addTodo, startAddTodos, setSearchText} from './actions/actions';
+import store from './store/configureStore';
 
-var initialTodos = TodoAPI.getTodos();
-store.dispatch(addTodos(initialTodos));
+// store.subscribe(() => {
+// 	var state = store.getState();
+// 	console.log('New state', state);
+// 	TodoAPI.setTodos(state.todos);
+// });
+
+// var initialTodos = TodoAPI.getTodos();
+// store.dispatch(addTodos(initialTodos));
+
+store.dispatch(startAddTodos());
 
 $(document).foundation();
 

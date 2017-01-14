@@ -1,17 +1,18 @@
-import {combineReducers, createStore, compose} from 'redux';
+import {combineReducers, createStore, applyMiddleware, compose} from 'redux';
+import thunk from 'redux-thunk';
 
-import {searchTextReducer, showCompletedReducer, addTodoReducer} from './../reducers/reducers';
+import {searchTextReducer, showCompletedReducer, addTodoReducer, fetchingReducer} from './../reducers/reducers';
 
-export var configure = () => {
 	var reducer = combineReducers({
 		searchText: searchTextReducer,
 		showCompleted: showCompletedReducer,
-		todos: addTodoReducer
+		todos: addTodoReducer,
+		isFetching: fetchingReducer
 	});
 
 	var store = createStore(reducer, compose(
+		applyMiddleware(thunk),
 		window.devToolsExtension ? window.devToolsExtension() : f => f
 	));
 
-	return store;
-}
+	export default store;
