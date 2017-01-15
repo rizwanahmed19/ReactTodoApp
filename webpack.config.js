@@ -20,7 +20,7 @@ module.exports = {
 	devtool: process.env.NODE_ENV === 'production' ? undefined : 'eval-source-map',
 	entry: [
 		'script!jquery/dist/jquery.min.js',
-		'script!foundation-sites/dist/js/foundation.min.js',
+		'script!foundation-sites/dist/foundation.min.js',
 		'./src/app.js'
 	],
 	externals: {

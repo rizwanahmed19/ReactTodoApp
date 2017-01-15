@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run prod && node server.js",
+    "start": "npm cache clean && npm run prod && node server.js",
     "prod": "webpack",
     "test": "karma start"
   },
