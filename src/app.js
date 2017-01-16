@@ -1,13 +1,14 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
-import TodoApp from './components/TodoApp';
-import TodoAPI from './api/TodoAPI';
-
+import {Router, Route, IndexRoute, hashHistory} from 'react-router';
 // import '../FirebasePlay';
 
+import TodoAPI from './api/TodoAPI';
 import {addTodo, startAddTodos, setSearchText} from './actions/actions';
 import store from './store/configureStore';
+import TodoApp from './components/TodoApp';
+import LoginPage from './components/LoginPage';
 
 // store.subscribe(() => {
 // 	var state = store.getState();
@@ -26,7 +27,12 @@ import 'style!css!sass!./styles/app.scss';
 
 ReactDOM.render(
 	<Provider store={store}>
-		<TodoApp /> 
+		<Router history={hashHistory}>
+			<Route path='/' >
+				<IndexRoute component={LoginPage} />
+				<Route path='todos' component={TodoApp} />
+			</Route>
+		</Router>
 	</Provider>,
 	document.getElementById('app')
 );
