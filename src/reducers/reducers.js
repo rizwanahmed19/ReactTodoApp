@@ -1,5 +1,3 @@
-import uuid from 'uuid';
-import moment from 'moment';
 
 export var searchTextReducer = (state = '', action) => {
 	switch (action.type) {
@@ -37,6 +35,8 @@ export var addTodoReducer = (state = [], action) => {
 					return todo;
 				}
 			});
+		case 'LOGOUT':
+			return [];
 		case 'ADD_TODOS':
 			return [
 				...state,
