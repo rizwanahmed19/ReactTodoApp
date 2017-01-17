@@ -20,14 +20,13 @@ import {startAddTodos} from './actions/actions';
 
 firebase.auth().onAuthStateChanged(user => {
 	if(user){
+		store.dispatch(startAddTodos());
 		hashHistory.push('/todos');
 	} else {
 		hashHistory.push('/');
 	}
 
 });
-
-store.dispatch(startAddTodos());
 
 $(document).foundation();
 
