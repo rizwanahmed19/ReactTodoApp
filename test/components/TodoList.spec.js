@@ -19,8 +19,4 @@ describe('TodoList', function(){
     it('should exist', function(){     
         expect(this.wrapper).to.exist;
     });
-
-    it('should display 2 li', function(){
-        expect(this.wrapper.find('Todo')).to.have.lengthOf(2);
-    });
-})
+)
