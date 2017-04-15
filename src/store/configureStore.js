@@ -9,7 +9,7 @@ import {
 	authReducer
 } from './../reducers/reducers';
 
-	var reducer = combineReducers({
+export	var reducer = combineReducers({
 		searchText: searchTextReducer,
 		showCompleted: showCompletedReducer,
 		todos: addTodoReducer,

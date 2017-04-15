@@ -2,9 +2,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {startLogin} from '../actions/actions';
 
-class LoginPage extends Component {
+export class LoginPage extends Component {
+	constructor(props){
+		super(props);
+		this.handleAuth = this.handleAuth.bind(this);
+	}
 	handleAuth(){
-		this.props.startLogin();
+		this.props.beginLogin();
 	}
 	render(){
 		return (
@@ -15,7 +19,7 @@ class LoginPage extends Component {
 						<div className='callout callout-auth'>
 							<h3>Login</h3>
 							<p>Login with GitHub account below.</p>
-							<button onClick={this.handleAuth.bind(this)} className='button'>
+							<button onClick={this.handleAuth} className='button'>
 								<i className='fa fa-lg fa-github'></i>
 								GitHub
 							</button>
@@ -27,4 +31,12 @@ class LoginPage extends Component {
 	}
 }
 
-export default connect(null, {startLogin})(LoginPage);
+export const mapDispatchToProps = (dispatch) => {
+	return {
+		beginLogin: () => {
+			dispatch(startLogin());
+		}
+	}
+}
+
+export default connect(null, mapDispatchToProps)(LoginPage);

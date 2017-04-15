@@ -3,7 +3,16 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import {startToggleTodo} from './../actions/actions';
 
-class Todo extends Component {
+export class Todo extends Component {
+		constructor(props){
+			super(props);
+
+			this.handleToggle = this.handleToggle.bind(this);
+		}
+		handleToggle(){
+			const {id, completed} = this.props;
+			this.props.toggleTodo(id, completed);
+		}
     render() {
     	var {id, text, completed, createdAt, completedAt, dispatch} = this.props;
       var todoClassName = completed ? 'todo todo-completed' : 'todo';
@@ -19,12 +28,9 @@ class Todo extends Component {
     		return message + moment.unix(timeStamp).format('MMM Do, YYYY [at] h:mm a');	
     	};
       return(
-      	<div className={todoClassName} onClick={() => {
-      		// this.props.onToggle(id);
-          dispatch(startToggleTodo(id, !completed));
-      	}}>
+      	<div className={todoClassName} onClick={this.handleToggle}>
           <div>
-        		<input type='checkbox' checked={completed} />
+        		<input type='checkbox' checked={completed} onChange={() => {} } />
           </div>
       		<div>
             <p>{text}</p>
@@ -34,5 +40,12 @@ class Todo extends Component {
       );
     }
 }
+export function mapDispatchToProps(dispatch) {
+	return {
+		toggleTodo: (id, completed) => {
+			dispatch(startToggleTodo(id, !completed));
+		}
+	}
+}
 
-export default connect()(Todo);
+export default connect(null, mapDispatchToProps)(Todo);

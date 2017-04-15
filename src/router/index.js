@@ -10,7 +10,7 @@ var requireLogin = (nextState, replace, next) => {
 		replace('/');
 	}
 	next();
-}
+}	
 
 var redirectIfLoggedIn = (nextState, replace, next) => {
 	if(firebase.auth().currentUser){
