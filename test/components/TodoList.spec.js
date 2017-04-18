@@ -1,5 +1,7 @@
 import React from 'react';
 import ConnectedTodoList, {TodoList} from '../../src/components/TodoList';
+import ConnectedTodo, {Todo} from '../../src/components/Todo';
+
 
 describe('TodoList', function(){
     let todos = [
@@ -13,10 +15,14 @@ describe('TodoList', function(){
 			}
 		];
     beforeEach(function(){
-         this.wrapper = shallow(<TodoList todos={todos} />);
+         this.wrapper = shallow(<TodoList todos={todos} searchText='dummy' />);
     });
 
     it('should exist', function(){     
         expect(this.wrapper).to.exist;
     });
-)
+
+    it('should render two Todos', function(){
+        expect(this.wrapper.find(ConnectedTodo)).to.have.lengthOf(2);
+    })
+});
