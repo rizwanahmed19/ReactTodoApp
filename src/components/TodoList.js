@@ -5,16 +5,16 @@ import TodoAPI from './../api/TodoAPI';
 import Todo from './Todo';
 
 
-class TodoList extends Component {
+export class TodoList extends Component {
     render() {
     	var {todos, searchText, showCompleted, isFetching} = this.props;
     	var renderTodos = () => {
     				if(isFetching){
     					 return (
-                    <div className='container__message'>
-                   		<PulseLoader color="#bbb" size="6px" margin="1.5px" />
-                    </div>
-                );
+							<div className='container__message'>
+								<PulseLoader color="#bbb" size="6px" margin="1.5px" />
+							</div>
+						);
     				}
     				if(todos.length === 0){
     					return <p className='container__message'>Nothing to show</p>

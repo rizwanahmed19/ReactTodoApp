@@ -2,7 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {startAddTodo} from './../actions/actions';
 
-class AddTodo extends Component {
+export class AddTodo extends Component {
+	constructor(props){
+		super(props);
+		this.addTodo = this.addTodo.bind(this);
+	}
 	addTodo(e){
 		e.preventDefault();
 		var {dispatch} = this.props;
@@ -19,7 +23,7 @@ class AddTodo extends Component {
 	render(){
 		return(
 			<div className='container__footer'>
-					<form onSubmit={this.addTodo.bind(this)}>
+					<form onSubmit={this.addTodo}>
 						<input type='search' placeholder='What do you need to do?' ref='todo' />
 						<button type='submit' className='button primary expanded'>Add</button>
 					</form>

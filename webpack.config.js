@@ -23,8 +23,27 @@ module.exports = {
 		'./assets/foundation.min.js',
 		'./src/app.js'
 	],
+	// required for enzyme to work properly
 	externals: {
-		jquery: 'jQuery'
+		jquery: 'jQuery',
+		'cheerio': 'window',
+		'react/addons': 'react',
+		'react/lib/ExecutionEnvironment': 'react',
+		'react/lib/ReactContext': 'react',
+		'react': 'React'
+	},
+	resolve: {
+	    // allow us to import components in tests like:
+	    // import Example from 'components/Example';
+	    root: path.resolve(__dirname, './src'),
+
+	    // allow us to avoid including extension name
+	    extensions: ['', '.js', '.jsx'],
+
+	    // required for enzyme to work properly
+	    alias: {
+	      'sinon': 'sinon/pkg/sinon'
+	    }
 	},
 	plugins: [
 		htmlWebpackPluginConfig,
@@ -53,6 +72,10 @@ module.exports = {
 		filename: 'bundle.js'
 	},
 	module: {
+		// don't run babel-loader through the sinon module
+        noParse: [
+          /node_modules\/sinon\//
+        ],
 		loaders: [
 			{
 				test: /\.js$/,

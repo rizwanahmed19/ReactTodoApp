@@ -8,7 +8,7 @@ module.exports = {
 			return !todo.completed || showCompleted; // todo is not completed or showCompleted is toggled
 		});
 
-		var filteredTodos = filteredTodos.filter((todo) => {
+		filteredTodos = filteredTodos.filter((todo) => {
 			return todo.text.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
 		});
 
